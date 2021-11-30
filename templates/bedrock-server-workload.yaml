@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bedrock-server
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      bedrock: server
+  template:
+    metadata:
+      labels:
+        bedrock: server
+    spec:
+      containers:
+      - name: bedrock-server
+        image: hbackman/bedrock-server:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: bedrock-server
+          containerPort: 19132
+          protocol: UDP
