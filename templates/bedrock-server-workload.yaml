@@ -21,3 +21,10 @@ spec:
         - name: bedrock-server
           containerPort: 19132
           protocol: UDP
+        volumeMounts:
+        - name: bedrock-data
+          mountPath: /bedrock/worlds
+      volumes:
+      - name: bedrock-data
+        persistentVolumeClaim:
+          claimName: bedrock-server-pvc
