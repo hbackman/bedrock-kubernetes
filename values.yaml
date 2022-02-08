@@ -1,0 +1,8 @@
+image:
+  name: hbackman/bedrock-server
+  tag: latest
+  pullPolicy: IfNotPresent
+
+# The size of the persistent volume claim. 3Gi should be enough
+# for most worlds.
+storage: 3Gi

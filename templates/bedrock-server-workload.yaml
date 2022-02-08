@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: bedrock-server
-  namespace: default
 spec:
   replicas: 1
   selector:
@@ -15,8 +14,8 @@ spec:
     spec:
       containers:
       - name: bedrock-server
-        image: hbackman/bedrock-server:latest
-        imagePullPolicy: IfNotPresent
+        image: {{ .Values.image.name }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
         - name: bedrock-server
           containerPort: 19132
@@ -24,7 +23,16 @@ spec:
         volumeMounts:
         - name: bedrock-data
           mountPath: /bedrock/worlds
+        - name: bedrock-server-config
+          mountPath: "/bedrock/server.properties"
+          subPath: server.properties
       volumes:
       - name: bedrock-data
         persistentVolumeClaim:
           claimName: bedrock-server-pvc
+      - name: bedrock-server-config
+        configMap:
+          name: bedrock-server-config
+          items:
+          - key: "server.properties"
+            path: "server.properties"
